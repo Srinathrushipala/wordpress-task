@@ -1,4 +1,4 @@
-############### Ansible playbook for deploy wordpress#############################################################
+############### Ansible playbook for deploy wordpress##################################
 
 Step1: Set up AWS credentials: To interact with AWS services using Ansible, you'll need to set up your AWS credentials. You can do this by creating an AWS Access Key and Secret Access Key in the AWS IAM Console and storing them in a secure location. Then, configure the AWS CLI on your local machine and use the aws configure command to set up the credentials
 
