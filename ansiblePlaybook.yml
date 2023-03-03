@@ -1,0 +1,45 @@
+---
+- name: Deploy WordPress on EC2
+  hosts: ec2-instance
+  become: true
+  vars:
+    aws_access_key: YOUR_ACCESS_KEY
+    aws_secret_key: YOUR_SECRET_KEY
+    ec2_public_ip: YOUR_EC2_INSTANCE_PUBLIC_IP
+    db_name: wordpress
+    db_user: wp_user
+    db_password: wp_password
+  tasks:
+    - name: Install necessary packages
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - httpd
+        - php
+        - php-mysql
+        - mysql
+        - mysql-server
+        - mysql-devel
+        - php-gd
+        - php-xml
+        - php-mbstring
+        - unzip
+
+    - name: Download WordPress
+      get_url:
+        url: "https://wordpress.org/latest.zip"
+        dest: "/tmp/wordpress.zip"
+      register: wordpress_download
+
+    - name: Extract WordPress
+      unarchive:
+        src: "/tmp/wordpress.zip"
+        dest: "/var/www/html"
+        copy: no
+      register: wordpress_extract
+
+    - name: Configure WordPress
+      template:
+        src: "wp-config.php.j2"
+        dest: "/var
